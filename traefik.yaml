@@ -13,3 +13,8 @@ providers:
     exposedByDefault: false
     network: blue_green_deploy
     watch: true
+# metrics:
+#   influxDB:
+#     address: "127.0.0.1:38089"
+#     database: "traefik"
+#     pushInterval: "10s"

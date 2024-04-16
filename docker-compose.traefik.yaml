@@ -1,6 +1,19 @@
 version: "3.8"
 
 services:
+  # influxdb:
+  #   image: influxdb:1.8-alpine
+  #   container_name: influxdb
+  #   environment:
+  #     - INFLUXDB_UDP_ENABLED=true
+  #     - INFLUXDB_UDP_DATABASE=traefik
+  #   ports:
+  #     - "127.0.0.1:38089:8089/udp"
+  #     - "127.0.0.1:38086:8086"
+  #   networks:
+  #     - blue_green_deploy
+  #   restart: unless-stopped
+
   traefik:
     image: traefik:v2.9
     container_name: traefik
