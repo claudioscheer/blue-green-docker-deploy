@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  traefik:
+    image: traefik:v2.9
+    container_name: traefik
+    labels:
+      - "traefik.http.routers.api.rule=Host(`localhost`)"
+      - "traefik.http.routers.api.service=api@internal"
+    ports:
+      - "80:80"
+      - "127.0.0.1:8080:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "./traefik.yaml:/traefik.yml"
+    networks:
+      - blue_green_deploy
+    restart: unless-stopped
+
+networks:
+  blue_green_deploy:
+    name: blue_green_deploy
+    driver: bridge

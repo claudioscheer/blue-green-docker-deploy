@@ -4,7 +4,7 @@ const server = http.createServer((req, res) => {
   console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
   res.statusCode = 200;
   res.setHeader("Content-Type", "text/plain");
-  res.end("Hello World\n");
+  res.end("Hello World!\n");
 });
 
 const PORT = process.env.PORT || 3000;
