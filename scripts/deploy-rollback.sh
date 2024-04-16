@@ -10,7 +10,7 @@ MAX_RETRIES=$((TIMEOUT / SLEEP_INTERVAL))
 TRAEFIK_NETWORK="blue_green_deploy"
 TRAEFIK_API_URL="http://localhost:8080/api/http/services"
 
-# Find the current active service.
+# Find the current active service
 if docker ps --format '{{.Names}}' | grep -q "${BLUE_SERVICE}"; then
   ACTIVE_SERVICE="${BLUE_SERVICE}"
   INACTIVE_SERVICE="${GREEN_SERVICE}"
@@ -19,11 +19,15 @@ elif docker ps --format '{{.Names}}' | grep -q "${GREEN_SERVICE}"; then
   INACTIVE_SERVICE="${BLUE_SERVICE}"
 else
   ACTIVE_SERVICE=""
-  INACTIVE_SERVICE="${BLUE_SERVICE}"
 fi
 
-echo "Starting deployment of ${INACTIVE_SERVICE}..."
-docker compose up --detach --build --remove-orphans ${INACTIVE_SERVICE}
+if [[ -z "${ACTIVE_SERVICE}" ]]; then
+  echo "No active service found"
+  exit 1
+fi
+
+echo "Starting rollback from ${INACTIVE_SERVICE} to ${ACTIVE_SERVICE}..."
+docker compose start ${INACTIVE_SERVICE}
 
 # Wait for the new service to be up.
 echo "Waiting for ${INACTIVE_SERVICE} to become healthy..."
